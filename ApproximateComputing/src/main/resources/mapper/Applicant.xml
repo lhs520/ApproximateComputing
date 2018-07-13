@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ApproximateComputing.dao.ApplicantDao">
+	<resultMap type="com.ApproximateComputing.po.Applicant" id="applicantResultMap">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+
+	</resultMap>
+	
+	
+	<!-- 批量添加音频评分记录 -->
+	<insert id="addApplicant" parameterType="com.ApproximateComputing.po.Applicant" useGeneratedKeys="true" keyProperty="id">
+		insert into applicant
+		(name,add_time)
+		values(#{0},NOW())
+	</insert>
+	
+	<select id="getAll" resultMap="applicantResultMap">
+		select name from applicant
+	</select>
+	
+	
+</mapper>

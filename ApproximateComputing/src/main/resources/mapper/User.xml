@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ApproximateComputing.dao.UserDao">
+<!-- 	<resultMap type="com.scutpedia.po.Topic" id="topicMap">
+		<id property="id" column="id"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="name" column="name"/>
+	</resultMap> -->
+	<sql id="columnList">
+		id,account,password
+	</sql>
+	
+	<select id="getByAccountAndPassword" resultType="java.lang.String">
+		select id from user
+		where account=#{account} and password=#{password}
+	</select>
+	
+	<select id="getByAccount" resultType="java.lang.String">
+		select id from user
+		where account=#{account}
+	</select>
+	
+	<insert id="addUser" parameterType="com.ApproximateComputing.po.User">
+		insert into user(id,account,password,create_time)
+		values(#{id},#{account},#{password},NOW())
+	</insert>
+	
+	<select id="getUserById" resultType="com.ApproximateComputing.po.User">
+		select * from user
+		where id=#{id}
+	</select>
+	
+	<select id="getUserByAccountAndPassword" resultType="com.ApproximateComputing.po.User">
+		select * from user
+		where account=#{account} and password=#{password}
+	</select>
+</mapper>

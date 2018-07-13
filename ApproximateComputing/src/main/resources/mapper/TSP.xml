@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ApproximateComputing.dao.TSPDao">
+	<resultMap type="com.ApproximateComputing.po.TSP" id="tSPResultMap">
+		<id property="id" column="id"/>
+		<result property="qualityLossRatio" column="quality_loss_ratio"/>
+		<result property="pathLength" column="path_length"/>
+		<result property="time" column="time"/>
+		<result property="grade" column="grade"/>
+
+	</resultMap>
+	
+	<sql id="columnList">
+		quality_loss_ratio,path_length,time,grade
+	</sql>
+	
+	
+	<!-- 批量添加旅行商问题评分记录 -->
+	<insert id="createMultiTSP" parameterType="com.ApproximateComputing.po.TSP" useGeneratedKeys="true" keyProperty="id">
+		insert into tsp
+		(<include refid="columnList"/>,add_time)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.qualityLossRatio},#{item.pathLength},#{item.time},#{item.grade},NOW()
+		)
+		</foreach>
+	</insert>
+	
+	<select id="getAll" resultMap="tSPResultMap">
+		select quality_loss_ratio,path_length,time,grade from tsp
+	</select>
+	
+	<select id="selectAvg" resultType="java.lang.Float">
+		SELECT AVG( grade) as grade FROM tsp 
+		WHERE quality_loss_ratio=#{0} AND time=#{1}
+	</select>
+	
+</mapper>
